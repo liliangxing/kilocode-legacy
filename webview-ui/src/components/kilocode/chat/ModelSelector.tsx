@@ -47,6 +47,18 @@ export const ModelSelector = ({
 		const isMissingSelectedModel = selectedModelId && !allModelIds.includes(selectedModelId)
 
 		// Add "Recommended models" section if there are preferred models
+		// kilocode_change start: helper to build search keywords for a model
+		// Includes providerName from ModelInfo if present, or the prefix before "/" in the model ID
+		// (e.g. "openai" from "openai/gpt-4o") so users can filter by provider in the search box.
+		const getSearchKeywords = (modelId: string): string | undefined => {
+			const modelInfo = providerModels[modelId]
+			if (modelInfo?.providerName) return modelInfo.providerName
+			const slashIdx = modelId.indexOf("/")
+			if (slashIdx > 0) return modelId.slice(0, slashIdx)
+			return undefined
+		}
+		// kilocode_change end
+
 		if (preferredModelIds.length > 0) {
 			result.push({
 				value: "__label_recommended__",
@@ -59,6 +71,7 @@ export const ModelSelector = ({
 					value: modelId,
 					label: providerModels[modelId]?.displayName ?? prettyModelName(modelId),
 					type: DropdownOptionType.ITEM,
+					searchKeywords: getSearchKeywords(modelId), // kilocode_change
 				})
 			})
 		}
@@ -77,6 +90,7 @@ export const ModelSelector = ({
 					value: selectedModelId,
 					label: providerModels[selectedModelId]?.displayName ?? prettyModelName(selectedModelId),
 					type: DropdownOptionType.ITEM,
+					searchKeywords: getSearchKeywords(selectedModelId), // kilocode_change
 				})
 			}
 
@@ -85,6 +99,7 @@ export const ModelSelector = ({
 					value: modelId,
 					label: providerModels[modelId]?.displayName ?? prettyModelName(modelId),
 					type: DropdownOptionType.ITEM,
+					searchKeywords: getSearchKeywords(modelId), // kilocode_change
 				})
 			})
 		} else if (isMissingSelectedModel) {
@@ -93,6 +108,7 @@ export const ModelSelector = ({
 				value: selectedModelId,
 				label: providerModels[selectedModelId]?.displayName ?? prettyModelName(selectedModelId),
 				type: DropdownOptionType.ITEM,
+				searchKeywords: getSearchKeywords(selectedModelId), // kilocode_change
 			})
 		}
 

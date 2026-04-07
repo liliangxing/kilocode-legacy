@@ -86,6 +86,16 @@ export async function getOCAModels(
 			const contextWindow =
 				typeof info?.context_window === "number" && info.context_window > 0 ? info.context_window : 0
 
+			// kilocode_change start: extract providerName for model search filtering
+			// Prefer explicit provider_name from the API, fall back to the prefix before "/" or "." in the model ID.
+			const providerName: string | undefined =
+				typeof info?.provider_name === "string" && info.provider_name
+					? info.provider_name
+					: typeof modelId === "string"
+						? modelId.split(/[/.]/, 2)[0] || undefined
+						: undefined
+			// kilocode_change end
+
 			const baseInfo: ModelInfo = {
 				maxTokens,
 				contextWindow,
@@ -97,6 +107,7 @@ export async function getOCAModels(
 				cacheReadsPrice: parsePrice(info?.cached_price),
 				description: info?.description,
 				banner: info?.banner,
+				providerName, // kilocode_change: for model search filtering
 				// new field: let handler branch on this!
 				supportedApiTypes: supportedApis.filter((api) => api === "CHAT_COMPLETIONS" || api === "RESPONSES"),
 				apiType: supportedApis.includes("RESPONSES")
@@ -105,7 +116,11 @@ export async function getOCAModels(
 						? "chat-completions"
 						: "unknown",
 				...{ supportsReasoningEffort: info?.is_reasoning_model ? info?.reasoning_effort_options : false },
-				reasoningEffort: info?.is_reasoning_model ? info?.reasoning_effort_options.includes("medium") ? "medium" : info?.reasoning_effort_options[0] : undefined
+				reasoningEffort: info?.is_reasoning_model
+					? info?.reasoning_effort_options.includes("medium")
+						? "medium"
+						: info?.reasoning_effort_options[0]
+					: undefined,
 			}
 
 			models[modelId] = baseInfo

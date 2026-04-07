@@ -120,6 +120,12 @@ export const modelInfoSchema = z.object({
 	// kilocode_change start
 	displayName: z.string().nullish(),
 	preferredIndex: z.number().nullish(),
+	/**
+	 * Human-readable name of the underlying AI provider/organization that created this model
+	 * (e.g. "OpenAI", "Anthropic", "Google"). Used to allow users to filter models by provider
+	 * in the model search box. Distinct from the API provider (the service routing the request).
+	 */
+	providerName: z.string().nullish(),
 	// kilocode_change end
 	// Flag to indicate if the model is deprecated and should not be used
 	deprecated: z.boolean().optional(),

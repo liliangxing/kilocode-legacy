@@ -26,6 +26,7 @@ export interface DropdownOption {
 	disabled?: boolean
 	type?: DropdownOptionType
 	pinned?: boolean
+	searchKeywords?: string // kilocode_change: extra text included in search but not displayed (e.g. provider name)
 }
 
 export interface SelectDropdownProps {
@@ -121,7 +122,7 @@ export const SelectDropdown = React.memo(
 					)
 					.map((option) => ({
 						original: option,
-						searchStr: [option.label, option.value].filter(Boolean).join(" "),
+						searchStr: [option.label, option.value, option.searchKeywords].filter(Boolean).join(" "), // kilocode_change: include searchKeywords
 					}))
 			}, [options])
 
