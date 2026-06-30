@@ -9,7 +9,7 @@
 # 🚀 Kilo
 
 > [!IMPORTANT]
-> The legacy Kilo Code VS Code extension and JetBrains plugin reach end of life on July 31, 2026. Kilo will provide no updates or maintenance after that date. The code remains available for community forks, and the frozen user manual is in [`docs/legacy-ides/`](docs/legacy-ides/README.md). Current IDE products are developed in [Kilo-Org/kilocode](https://github.com/Kilo-Org/kilocode), with current documentation at [kilo.ai/docs](https://kilo.ai/docs).
+> This repository contains the legacy Kilo Code IDE extensions. See [Legacy IDE Extensions End of Life](#legacy-ide-extensions-end-of-life) for support status and current product links.
 
 > Kilo is the all-in-one agentic engineering platform. Build, ship, and iterate faster with the most popular open source coding agent.
 
@@ -38,6 +38,19 @@
 - **Automated Refactoring:** Kilo can refactor and improve existing code efficiently.
 - **MCP Server Marketplace**: Kilo can easily find, and use MCP servers to extend the agent capabilities.
 - **Multi Mode**: Plan with Architect, Code with Coder, and Debug with Debugger, and make your own custom modes.
+
+## Legacy IDE Extensions End of Life
+
+The legacy Kilo Code VS Code extension and JetBrains plugin in this repository reach end of life on **July 31, 2026**.
+
+After that date, Kilo will not provide updates, bug fixes, security patches, compatibility fixes, marketplace releases, or maintenance for this legacy codebase. The repository remains available for historical reference and community forks, but it is no longer the source for actively supported Kilo IDE products.
+
+Use these resources instead:
+
+- [Current Kilo Code repository](https://github.com/Kilo-Org/kilocode)
+- [Current Kilo Code documentation](https://kilo.ai/docs)
+- [Current installation guide](https://kilo.ai/docs/getting-started/installing)
+- [Frozen legacy IDE user manual](docs/legacy-ides/README.md)
 
 ## Use Current Kilo Code
 
