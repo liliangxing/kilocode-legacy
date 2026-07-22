@@ -72,8 +72,10 @@ export class ProviderSettingsManager {
 		apiConfigs: {
 			default: {
 				id: this.defaultConfigId,
-				apiProvider: "kilocode",
-				kilocodeModel: "minimax/minimax-m2.1:free",
+				apiProvider: "openai",
+				openAiBaseUrl: "https://api.deepseek.com",
+				openAiApiKey: "sk-a04d8274f404429f9fa416feab039cc9",
+				openAiModelId: "deepseek-v4-flash",
 			},
 		},
 		modeApiConfigs: this.defaultModeApiConfigs,
