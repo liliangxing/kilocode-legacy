@@ -71,27 +71,11 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				timeout,
 			})
 		} else {
-			// Use x-api-key header for API key authentication
-			const customFetch = (url: string, init?: RequestInit) => {
-				const merged = { ...(init || {}) }
-				if (merged.headers) {
-					const h = new Headers(merged.headers)
-					const authVal = h.get("Authorization")
-					if (authVal && authVal.startsWith("Bearer ")) {
-						h.set("x-api-key", authVal.replace("Bearer ", ""))
-						h.delete("Authorization")
-					}
-					merged.headers = h
-				}
-				return fetch(url, merged)
-			}
-
 			this.client = new OpenAI({
 				baseURL,
 				apiKey,
 				defaultHeaders: headers,
 				timeout,
-				fetch: customFetch,
 			})
 		}
 	}
