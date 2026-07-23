@@ -71,27 +71,30 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				timeout,
 			})
 		} else {
-			// Custom fetch to use x-api-key header for DeepSeek compatibility
-			const customFetch = (url: string, init?: RequestInit) => {
-				const merged = { ...(init || {}) }
-				if (merged.headers) {
-					const h = new Headers(merged.headers)
-					const authVal = h.get("Authorization")
-					if (authVal && authVal.startsWith("Bearer ")) {
-						h.set("x-api-key", authVal.replace("Bearer ", ""))
-						h.delete("Authorization")
+			// For DeepSeek, use x-api-key header instead of Authorization: Bearer
+			const isDeepSeek = baseURL.includes("deepseek")
+			const customFetch = isDeepSeek
+				? (url: string, init?: RequestInit) => {
+					const merged = { ...(init || {}) }
+					if (merged.headers) {
+						const h = new Headers(merged.headers)
+						const authVal = h.get("Authorization")
+						if (authVal && authVal.startsWith("Bearer ")) {
+							h.set("x-api-key", authVal.replace("Bearer ", ""))
+							h.delete("Authorization")
+						}
+						merged.headers = h
 					}
-					merged.headers = h
+					return fetch(url, merged)
 				}
-				return fetch(url, merged)
-			}
+				: undefined
 
 			this.client = new OpenAI({
 				baseURL,
 				apiKey,
 				defaultHeaders: headers,
 				timeout,
-				fetch: customFetch,
+				...(customFetch ? { fetch: customFetch } : {}),
 			})
 		}
 	}
